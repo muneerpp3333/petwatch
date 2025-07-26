@@ -1,0 +1,146 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Adoption {
+  adoptionFee: Float!
+  city: String!
+  country: String
+  createdAt: DateTime!
+  email: String!
+  fullName: String!
+  id: ID!
+  paymentStatus: PaymentStatus!
+  pet: Pet!
+  petId: Float!
+  phone: String!
+  state: String!
+  street: String!
+  userId: String
+  zipCode: String!
+}
+
+enum AdoptionStatus {
+  ADOPTED
+  AVAILABLE
+  PENDING
+}
+
+input CreateAdoptionInput {
+  city: String!
+  country: String
+  email: String!
+  fullName: String!
+  petId: Int!
+  phone: String!
+  state: String!
+  street: String!
+  userId: String
+  zipCode: String!
+}
+
+input CreatePetInput {
+  adoptionFee: Float!
+  age: Float!
+  breed: String!
+  description: String!
+  gender: PetGender!
+  imageUrl: String!
+  images: [String!]!
+  location: String!
+  name: String!
+  neutered: Boolean!
+  species: PetSpecies!
+  vaccinated: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createAdoption(createAdoptionInput: CreateAdoptionInput!): Adoption!
+  createPet(createPetInput: CreatePetInput!): Pet!
+  processPayment(id: ID!): Adoption!
+  removePet(id: ID!): Boolean!
+  updatePet(updatePetInput: UpdatePetInput!): Pet!
+}
+
+type PaginatedPetsResponse {
+  hasNextPage: Boolean!
+  limit: Int!
+  page: Int!
+  pets: [Pet!]!
+  totalCount: Int!
+  totalPages: Int!
+}
+
+input PaginationArgs {
+  limit: Int! = 10
+  page: Int! = 1
+}
+
+enum PaymentStatus {
+  COMPLETED
+  FAILED
+  PENDING
+}
+
+type Pet {
+  adoptionFee: Float!
+  adoptionStatus: AdoptionStatus!
+  age: Float!
+  breed: String!
+  createdAt: DateTime!
+  description: String!
+  gender: PetGender!
+  id: ID!
+  imageUrl: String!
+  images: [String!]!
+  location: String!
+  name: String!
+  neutered: Boolean!
+  species: PetSpecies!
+  updatedAt: DateTime!
+  vaccinated: Boolean!
+}
+
+enum PetGender {
+  FEMALE
+  MALE
+}
+
+enum PetSpecies {
+  BIRD
+  CAT
+  DOG
+  OTHER
+  RABBIT
+}
+
+type Query {
+  adoption(id: ID!): Adoption!
+  adoptions: [Adoption!]!
+  availablePets: [Pet!]!
+  paginatedAvailablePets(paginationArgs: PaginationArgs!): PaginatedPetsResponse!
+  paginatedPets(paginationArgs: PaginationArgs!): PaginatedPetsResponse!
+  pet(id: ID!): Pet!
+  pets: [Pet!]!
+}
+
+input UpdatePetInput {
+  adoptionFee: Float
+  age: Float
+  breed: String
+  description: String
+  gender: PetGender
+  id: ID!
+  imageUrl: String
+  images: [String!]
+  location: String
+  name: String
+  neutered: Boolean
+  species: PetSpecies
+  vaccinated: Boolean
+}

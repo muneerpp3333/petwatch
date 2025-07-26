@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(npx @nestjs/cli new:*)",
+      "Bash(bun run:*)"
+    ],
+    "deny": []
+  }
+}
