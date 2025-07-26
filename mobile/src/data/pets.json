@@ -50,9 +50,7 @@
     "imageUrl": "https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400",
     "images": [
       "https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=800",
-      "https://images.unsplash.com/photo-1568393691080-d016b2e9615c?w=800",
-      "https://images.unsplash.com/photo-1638173588067-98d93e09fd11?w=800",
-      "https://images.unsplash.com/photo-1605568427562-40265c93db0d?w=800"
+      "https://images.unsplash.com/photo-1568393691080-d016b2e9615c?w=800"
     ],
     "location": "Oakland, CA",
     "adoptionFee": 400,
@@ -69,10 +67,7 @@
     "description": "Fluffy Persian cat with a calm temperament. Loves to be groomed and pampered.",
     "imageUrl": "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=400",
     "images": [
-      "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=800",
-      "https://images.unsplash.com/photo-1567270671170-fdc10a5bf831?w=800",
-      "https://images.unsplash.com/photo-1591871937573-74dbba515c4c?w=800",
-      "https://images.unsplash.com/photo-1584552246071-fbb8297b0f36?w=800"
+      "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=800"
     ],
     "location": "Berkeley, CA",
     "adoptionFee": 250,
@@ -91,8 +86,7 @@
     "images": [
       "https://images.unsplash.com/photo-1600804340584-c7db2eacf0bf?w=800",
       "https://images.unsplash.com/photo-1591769225440-811ad7d6eab3?w=800",
-      "https://images.unsplash.com/photo-1545165375-500e8977ce88?w=800",
-      "https://images.unsplash.com/photo-1554456854-55a089fd4cb2?w=800"
+      "https://images.unsplash.com/photo-1545165375-500e8977ce88?w=800"
     ],
     "location": "San Jose, CA",
     "adoptionFee": 450,

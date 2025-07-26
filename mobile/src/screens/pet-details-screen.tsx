@@ -24,7 +24,7 @@ const PetDetailsScreen: React.FC<PetDetailsScreenProps> = ({ route, navigation }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ImageGallery images={pet.images || [pet.imageUrl]} />
+        <ImageGallery images={pet.images || (pet.imageUrl ? [pet.imageUrl] : [])} />
         
         <View style={styles.contentContainer}>
           <Text style={styles.petName}>{pet.name}</Text>

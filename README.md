@@ -1,125 +1,331 @@
-# PetWatch - Pet Adoption App
+# PetWatch 🐾
 
-A full-stack pet adoption application built with React Native, NestJS, PostgreSQL, and GraphQL.
+A full-stack pet adoption platform that connects loving pets with caring families. Built with React Native for mobile and NestJS/GraphQL for the backend.
 
 ## Features
 
-- 📱 Browse available pets for adoption
-- 🐾 View detailed pet information
-- 💳 Mock adoption and payment process
-- 📍 Location services to show user coordinates
-- 🎨 Beautiful UI with Tamagui components
-- 🚀 GraphQL API with real-time updates
+- 📱 **Cross-platform mobile app** (iOS & Android)
+- 🔍 **Browse available pets** with detailed profiles
+- 🖼️ **Image galleries** for each pet
+- 📍 **Location services** with Google Maps integration
+- 💳 **Adoption workflow** with payment processing
+- 🔄 **Real-time data synchronization** via GraphQL
+- 📄 **Pagination support** for efficient browsing
+- ✨ **Shimmer loading effects** for better UX
+- 🔌 **Offline mode** with dummy data fallback
 
 ## Tech Stack
 
 ### Backend
-- NestJS
-- PostgreSQL
-- GraphQL (Apollo Server)
-- TypeORM
-- Docker
+- **NestJS** - Progressive Node.js framework
+- **GraphQL** - API query language
+- **TypeORM** - Object-relational mapping
+- **PostgreSQL** - Relational database
+- **Docker** - Containerization
 
 ### Mobile
-- React Native (bare workflow)
-- Tamagui UI
-- Apollo Client
-- React Navigation
-- Geolocation services
+- **React Native** - Cross-platform mobile framework
+- **Apollo Client** - GraphQL client with caching
+- **React Navigation** - Routing and navigation
+- **TypeScript** - Type-safe development
+
+## Prerequisites
+
+- Node.js >= 18
+- [Bun](https://bun.sh) package manager
+- Docker and Docker Compose
+- Xcode (for iOS development)
+- Android Studio (for Android development)
+
+## Installation
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/petwatch.git
+cd petwatch
+```
+
+### 2. Backend Setup
+
+#### Start PostgreSQL database
+```bash
+docker-compose up -d
+```
+
+#### Install dependencies
+```bash
+cd backend
+bun install
+```
+
+#### Run database migrations
+The database schema will be automatically synchronized when you start the server.
+
+#### Seed initial data
+```bash
+bun run seed
+```
+
+#### Start the development server
+```bash
+bun run start:dev
+```
+
+The GraphQL playground will be available at `http://localhost:3000/graphql`
+
+### 3. Mobile App Setup
+
+#### Install dependencies
+```bash
+cd mobile
+bun install
+```
+
+#### iOS Setup
+```bash
+cd ios
+bundle install  # First time only
+bundle exec pod install
+cd ..
+```
+
+#### Environment Configuration
+
+1. Copy the example environment file:
+```bash
+cp .env.example .env
+```
+
+2. Configure your environment variables:
+```env
+# Google Maps API Key (required for location features)
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+
+# Backend API URL (optional - uses dummy data if not set)
+API_URL=http://localhost:3000/graphql
+```
+
+#### Start Metro bundler
+```bash
+bun start
+```
+
+#### Run the app
+
+**iOS:**
+```bash
+bun ios
+```
+
+**Android:**
+```bash
+bun android
+```
+
+## Environment Variables
+
+### Backend
+The backend uses the following database configuration (defined in docker-compose.yml):
+- `POSTGRES_USER`: petwatch
+- `POSTGRES_PASSWORD`: petwatch123
+- `POSTGRES_DB`: petwatch_db
+
+### Mobile
+- `GOOGLE_MAPS_API_KEY`: Required for location services. Get one from [Google Cloud Console](https://console.cloud.google.com/)
+- `API_URL`: Backend GraphQL endpoint. If not set, the app uses dummy data
+
+## Development
+
+### Backend Commands
+```bash
+bun run start          # Start server
+bun run start:dev      # Start in watch mode
+bun run build          # Build for production
+bun run test           # Run tests
+bun run lint           # Lint code
+bun run seed           # Seed database with sample data
+```
+
+### Mobile Commands
+```bash
+bun start              # Start Metro bundler
+bun ios                # Run on iOS simulator
+bun android            # Run on Android emulator
+bun test               # Run tests
+bun lint               # Lint code
+```
+
+## API Documentation
+
+### GraphQL Endpoint
+```
+http://localhost:3000/graphql
+```
+
+### Key Queries
+
+#### Get paginated available pets
+```graphql
+query GetPaginatedAvailablePets($page: Int!, $limit: Int!) {
+  paginatedAvailablePets(paginationArgs: { page: $page, limit: $limit }) {
+    pets {
+      id
+      name
+      species
+      breed
+      age
+      gender
+      description
+      imageUrl
+      images
+      location
+      adoptionFee
+      vaccinated
+      neutered
+      adoptionStatus
+    }
+    totalCount
+    page
+    limit
+    hasNextPage
+    totalPages
+  }
+}
+```
+
+#### Get pet by ID
+```graphql
+query GetPetById($id: ID!) {
+  pet(id: $id) {
+    id
+    name
+    species
+    breed
+    age
+    gender
+    description
+    imageUrl
+    images
+    location
+    adoptionFee
+    vaccinated
+    neutered
+    adoptionStatus
+  }
+}
+```
+
+### Key Mutations
+
+#### Create adoption
+```graphql
+mutation CreateAdoption($input: CreateAdoptionInput!) {
+  createAdoption(createAdoptionInput: $input) {
+    id
+    fullName
+    email
+    phone
+    street
+    city
+    state
+    zipCode
+    adoptionFee
+    paymentStatus
+    pet {
+      id
+      name
+    }
+  }
+}
+```
 
 ## Project Structure
 
 ```
 petwatch/
-├── backend/          # NestJS backend API
-├── mobile/           # React Native mobile app
-└── docker-compose.yml
+├── backend/                 # NestJS backend
+│   ├── src/
+│   │   ├── adoptions/      # Adoption module
+│   │   ├── pets/           # Pets module
+│   │   ├── users/          # Users module
+│   │   └── main.ts         # Application entry point
+│   └── package.json
+├── mobile/                  # React Native app
+│   ├── src/
+│   │   ├── apollo/         # Apollo Client configuration
+│   │   ├── components/     # Reusable components
+│   │   ├── contexts/       # React contexts
+│   │   ├── graphql/        # GraphQL queries
+│   │   ├── screens/        # App screens
+│   │   └── services/       # Utility services
+│   ├── ios/                # iOS-specific files
+│   ├── android/            # Android-specific files
+│   └── package.json
+└── docker-compose.yml      # Database configuration
 ```
 
-## Getting Started
+## Troubleshooting
 
-### Prerequisites
-- Node.js 18+
-- Docker and Docker Compose
-- React Native development environment set up
-- Xcode (for iOS) or Android Studio (for Android)
+### iOS Build Issues
 
-### Backend Setup
-
-1. Start the backend services:
-```bash
-docker-compose up -d
-```
-
-This will start:
-- PostgreSQL database on port 5432
-- NestJS backend on port 3000
-
-2. The GraphQL playground will be available at: http://localhost:3000/graphql
-
-### Mobile Setup
-
-1. Install dependencies:
-```bash
-cd mobile
-npm install
-```
-
-2. iOS setup:
+#### Pod installation fails
 ```bash
 cd ios
-pod install
-cd ..
+rm -rf Pods Podfile.lock
+bundle exec pod install --repo-update
 ```
 
-3. Run the app:
+#### Build fails with "No bundle URL present"
 ```bash
-# iOS
-npm run ios
-
-# Android
-npm run android
+cd mobile
+npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/main.jsbundle
 ```
 
-## API Endpoints
+### Android Build Issues
 
-GraphQL endpoint: `http://localhost:3000/graphql`
+#### Metro bundler connection issues
+Make sure your device/emulator can reach your development machine:
+```bash
+adb reverse tcp:8081 tcp:8081
+```
 
-### Queries
-- `availablePets` - Get all available pets
-- `pet(id)` - Get a specific pet by ID
-- `adoptions` - Get all adoptions
+#### Build fails with "Could not connect to development server"
+1. Check Metro is running: `bun start`
+2. Clear cache: `bun start -- --reset-cache`
 
-### Mutations
-- `createPet` - Add a new pet
-- `updatePet` - Update pet information
-- `createAdoption` - Start adoption process
-- `processPayment` - Complete adoption payment
+### Backend Issues
 
-## Environment Variables
+#### Database connection fails
+1. Ensure Docker is running
+2. Check PostgreSQL container: `docker ps`
+3. Restart containers: `docker-compose restart`
 
-### Backend
-- `DATABASE_URL` - PostgreSQL connection string
-- `NODE_ENV` - Development/production mode
+#### GraphQL schema not updating
+```bash
+rm -rf dist
+bun run build
+bun run start:dev
+```
 
-### Mobile
-- Update `src/services/apollo.ts` with your backend URL
+## Contributing
 
-## Features Implemented
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-✅ Pet listing with images and details
-✅ Pet details view
-✅ Adoption form
-✅ Mock payment processing
-✅ Location services
-✅ Responsive UI with Tamagui
-✅ GraphQL integration
-✅ Docker setup
-
-## Screenshots
-
-(Add screenshots here)
+### Code Style
+- Follow TypeScript best practices
+- Use ESLint and Prettier for code formatting
+- Write meaningful commit messages
+- Add tests for new features
 
 ## License
 
-MIT# petwatch
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Pet images from [Unsplash](https://unsplash.com)
+- Icons and design inspiration from the React Native community

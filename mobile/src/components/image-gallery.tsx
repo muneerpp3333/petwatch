@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
-  Image,
   Dimensions,
   ScrollView,
   Text,
@@ -28,39 +27,47 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Ensure we have at least one image
+  const validImages = images && images.length > 0 ? images : [];
+
+  if (validImages.length === 0) {
+    return (
+      <View style={styles.mainImage}>
+        <Text style={styles.noImageText}>No image available</Text>
+      </View>
+    );
+  }
+
   const handleImagePress = (index: number) => {
     setCurrentIndex(index);
     setIsViewerOpen(true);
     onImagePress?.(index);
   };
 
-  const imageUrls = images.map(url => ({ url }));
+  const imageUrls = validImages.map(url => ({ url }));
 
   return (
     <View>
       {/* Main Image */}
-      <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={() => handleImagePress(0)}
-      >
+      <TouchableOpacity activeOpacity={0.9} onPress={() => handleImagePress(0)}>
         <FastImage
-          source={{ uri: images[0] }}
+          source={{ uri: validImages[0] }}
           style={styles.mainImage}
           resizeMode={FastImage.resizeMode.cover}
         />
         <View style={styles.imageCountBadge}>
-          <Text style={styles.imageCountText}>1 / {images.length}</Text>
+          <Text style={styles.imageCountText}>1 / {validImages.length}</Text>
         </View>
       </TouchableOpacity>
 
       {/* Thumbnail Strip */}
-      {showThumbnails && images.length > 1 && (
+      {showThumbnails && validImages.length > 1 && (
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           style={styles.thumbnailContainer}
         >
-          {images.map((image, index) => (
+          {validImages.map((image, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => handleImagePress(index)}
@@ -187,6 +194,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: '600',
+  },
+  noImageText: {
+    textAlign: 'center',
+    color: '#666',
+    marginTop: 100,
   },
 });
 
